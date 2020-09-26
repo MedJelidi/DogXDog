@@ -9,6 +9,11 @@ require dirname(__DIR__).'/vendor/autoload.php';
 
 (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 
+//header('Access-Control-Allow-Origin: http://localhost:4200');
+//header('Access-Control-Allow-Headers: set-cookie');
+//header('Access-Control-Allow-Credentials: true');
+
+
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 
