@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,6 +54,9 @@ class SecurityController extends AbstractController
         if ($this->getUser()) {
             return new JsonResponse([!!$request->cookies->get('PHPSESSID'), $this->getUser()->getId()]);
         }
+        // $response = new JsonResponse();
+        // $response->headers->setCookie(Cookie::create('foo', 'bar')->withSameSite('lax'));
+        // return $response;
         return new JsonResponse([!!$request->cookies->get('PHPSESSID'), null]);
     }
 
@@ -64,5 +69,23 @@ class SecurityController extends AbstractController
     public function isValidPassword(Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         return $this->json($userPasswordEncoder->isPasswordValid($this->getUser(), $request->getContent()));
+    }
+
+    /**
+     * @Route("/confirm_user", name="app_conf_email")
+     * @param Request $request
+     * @return Response
+     */
+    public function verifyEmail(Request $request, UserRepository $repository)
+    {
+        $username = $request->query->get('username');
+        $token = $request->query->get('token');
+        $user = $repository->findOneBy(['username' => $username]);
+        if ($user->getConfirmToken() === $token) {
+            $repository->updateConfirmation($user);
+            return $this->json('Confirmed!');
+        }
+        return $this->json('Not confirmed!');
+        // return new Response($user->getConfirmToken());
     }
 }

@@ -1,0 +1,16 @@
+docker-composer up -d
+mysql -u root --password=password --host=127.0.0.1 --port=PN
+symfony serve -d
+symfony console doctrine:query:sql QUERY
+symfony console doctrine:migrations:migrate        (to register a migration: symfony console make:migration)
+symfony console doctrine:fixtures:load
+
+
+docker run -d --name=firstsymfony_database_1 -p 0.0.0.0:32769:3306 container_repository:version1
+
+
+# Backup
+docker exec CONTAINER /usr/bin/mysqldump -u root --password=root DATABASE > backup.sql
+
+# Restore
+cat backup.sql | docker exec -i CONTAINER /usr/bin/mysql -u root --password=root DATABASE

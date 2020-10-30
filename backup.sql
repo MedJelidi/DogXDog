@@ -36,7 +36,7 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20200916072052','2020-09-17 19:41:25',722),('DoctrineMigrations\\Version20200916202401','2020-09-17 19:41:27',9641),('DoctrineMigrations\\Version20200917173608','2020-09-17 19:41:36',3443),('DoctrineMigrations\\Version20200917175421','2020-09-17 19:54:27',891),('DoctrineMigrations\\Version20200917175726','2020-09-17 19:57:29',1275),('DoctrineMigrations\\Version20200917193708','2020-09-17 21:37:35',403),('DoctrineMigrations\\Version20200917194035','2020-09-17 21:40:42',1540),('DoctrineMigrations\\Version20200917195302','2020-09-17 21:53:07',659),('DoctrineMigrations\\Version20200920085935','2020-09-20 10:59:53',938),('DoctrineMigrations\\Version20200920091836','2020-09-20 11:24:25',526),('DoctrineMigrations\\Version20200920101001','2020-09-20 12:10:07',777),('DoctrineMigrations\\Version20200921083955','2020-09-23 11:52:12',1046),('DoctrineMigrations\\Version20200921141249','2020-09-23 11:52:13',2620),('DoctrineMigrations\\Version20200921141632','2020-09-23 11:52:16',3423);
+INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20200916072052','2020-09-17 19:41:25',722),('DoctrineMigrations\\Version20200916202401','2020-09-17 19:41:27',9641),('DoctrineMigrations\\Version20200917173608','2020-09-17 19:41:36',3443),('DoctrineMigrations\\Version20200917175421','2020-09-17 19:54:27',891),('DoctrineMigrations\\Version20200917175726','2020-09-17 19:57:29',1275),('DoctrineMigrations\\Version20200917193708','2020-09-17 21:37:35',403),('DoctrineMigrations\\Version20200917194035','2020-09-17 21:40:42',1540),('DoctrineMigrations\\Version20200917195302','2020-09-17 21:53:07',659),('DoctrineMigrations\\Version20200920085935','2020-09-20 10:59:53',938),('DoctrineMigrations\\Version20200920091836','2020-09-20 11:24:25',526),('DoctrineMigrations\\Version20200920101001','2020-09-20 12:10:07',777),('DoctrineMigrations\\Version20200921083955','2020-09-23 11:52:12',1046),('DoctrineMigrations\\Version20200921141249','2020-09-23 11:52:13',2620),('DoctrineMigrations\\Version20200921141632','2020-09-23 11:52:16',3423),('DoctrineMigrations\\Version20200926132313','2020-09-26 15:27:57',465),('DoctrineMigrations\\Version20200926132914','2020-09-26 15:29:35',2617),('DoctrineMigrations\\Version20200926133329','2020-09-26 15:33:31',4460),('DoctrineMigrations\\Version20200926133540','2020-09-26 15:35:44',3632),('DoctrineMigrations\\Version20200926155624','2020-09-26 17:56:28',367),('DoctrineMigrations\\Version20200926163504','2020-09-26 18:35:07',477);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +57,7 @@ CREATE TABLE `dog` (
   `ready` tinyint(1) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_812C397D7E3C61F9` (`owner_id`),
   CONSTRAINT `FK_812C397D7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
@@ -88,14 +88,16 @@ CREATE TABLE `user` (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg',
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg',
   `socials` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '(DC2Type:array)',
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `confirmed` int NOT NULL DEFAULT '0',
+  `conf_token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`),
   UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`),
   UNIQUE KEY `UNIQ_8D93D649444F97DD` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +106,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'mohammedjelidi05@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$xVpyQwUPwdmd9XWLuzuV9g$V4/D0uF6WAm74LvtWIz5zCMMR07GYrcMyJIDcICU6gY','mohammedjelidi1','28249424','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg','a:3:{i:0;s:30:\"https://facebook.com/medjelidi\";i:1;s:31:\"https://instagram.com/medjelidi\";i:2;s:29:\"https://twitter.com/medjelidi\";}','Kram'),(2,'hama00711@hotmail.fr','[]','$argon2id$v=19$m=65536,t=4,p=1$sJIxXqHgJC4vzCQMBVLDBg$taPNtqsKCbX8zBqh1AtR4oHdomWTE7HTayxun6r1b+s','hama00712','22111111','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg','a:3:{i:0;s:0:\"\";i:1;s:0:\"\";i:2;s:0:\"\";}',NULL),(10,'hamzasnoussi@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$2ynZlM9qjCTFlirdwXmPSw$Zz1J1LJGtDHzibYD1aqVaJMkS/37a/P00xxxEHGM3hU','hamzasnoussi','28248616','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg',NULL,NULL),(11,'aziz@gmail.com','[]','12345678','aziz00711','23000000','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg','a:3:{i:0;s:0:\"\";i:1;s:18:\"instagram.com/aziz\";i:2;s:17:\"twitter.com/@aziz\";}',NULL);
+INSERT INTO `user` VALUES (1,'mohammedjelidi05@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$RULLCZ32EdYm+O7THN+jjg$k9Kb2TEVpyP7xBc3pE9PHw0qCoj5aAttCb3rVBO34Kg','mohammedjelidi1','28249424','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg','a:3:{i:0;s:30:\"https://facebook.com/medjelidi\";i:1;s:31:\"https://instagram.com/medjelidi\";i:2;s:29:\"https://twitter.com/medjelidi\";}','Kram',1,'0'),(2,'hama00711@hotmail.fr','[]','$argon2id$v=19$m=65536,t=4,p=1$sJIxXqHgJC4vzCQMBVLDBg$taPNtqsKCbX8zBqh1AtR4oHdomWTE7HTayxun6r1b+s','hama00712','22111111','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg','a:3:{i:0;s:0:\"\";i:1;s:0:\"\";i:2;s:0:\"\";}',NULL,1,'0'),(10,'hamzasnoussi@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$2ynZlM9qjCTFlirdwXmPSw$Zz1J1LJGtDHzibYD1aqVaJMkS/37a/P00xxxEHGM3hU','hamzasnoussi','28248616','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg',NULL,NULL,1,'0'),(11,'aziz@gmail.com','[]','12345678','aziz00711','23000000','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg','a:3:{i:0;s:0:\"\";i:1;s:18:\"instagram.com/aziz\";i:2;s:17:\"twitter.com/@aziz\";}',NULL,1,'0'),(18,'lyricman101617@gmail.com','[]','$argon2id$v=19$m=65536,t=4,p=1$SRmbwa0mgQRs5D0MFDkWQw$Dw4n+g5q5l+5D0iSf8ESgSksLxPxaQAUS+6nMGKq6UA','daymaker','93000004','https://icon-library.com/images/default-user-icon/default-user-icon-4.jpg','a:0:{}',NULL,1,'daymaker_O_lo1OWGEvuqLCy78vEhAeQMolPRvO2nbpavzCBFi9E');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -117,4 +119,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-23 13:31:37
+-- Dump completed on 2020-09-26 21:56:56

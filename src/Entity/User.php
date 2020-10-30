@@ -94,6 +94,16 @@ class User implements UserInterface
      */
     private $plainPassword;
 
+    /**
+     * @ORM\Column(type="integer", options={"default" : "0"})
+     */
+    private $confirmed = 0;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $conf_token = '';
+
     public function __construct()
     {
         $this->dogs = new ArrayCollection();
@@ -268,6 +278,32 @@ class User implements UserInterface
         $this->plainPassword = $plainPassword;
         return $this;
     }
+
+    public function getConfirmed(): ?int
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(int $confirmed): self
+    {
+        $this->confirmed = $confirmed;
+
+        return $this;
+    }
+
+    public function getConfirmToken(): ?string
+    {
+        return $this->conf_token;
+    }
+
+    public function setConfirmToken(string $conf_token): self
+    {
+        $this->conf_token = $conf_token;
+
+        return $this;
+    }
+
+
 
 
 }
