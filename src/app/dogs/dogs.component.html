@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="row row-cols-1 row-cols-md-4">
+      <app-dog *ngFor="let dog of dogs"
+               [id]="dog.id"
+               [breed]="dog.breed"
+               [image]="dog.image"
+               [name]="dog.name"
+               [location]="dog.location"
+               [gender]="dog.gender"
+               [ready]="dog.ready"
+               [age]="dog.age"
+               [description]="dog.description"
+               [owner]="dog.owner.id" class="col mb-4">
+      </app-dog>
+    </div>
+  </div>
+</div>

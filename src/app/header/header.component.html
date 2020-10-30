@@ -1,0 +1,12 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm" *ngIf="!loading">
+  <img src="assets/dogxdog_logo_75px.png" alt="dogxdog_logo" class="my-0 mr-md-auto" routerLink="">
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" routerLink="dogs">Dogs List</a>
+    <a class="p-2 text-dark" href="#" *ngIf="isSessionID" routerLink="/user/{{userID}}">Profile</a>
+    <a class="p-2 text-dark" href="#">Support</a>
+    <a class="p-2 text-dark" href="#">Pricing</a>
+  </nav>
+  <a class="btn btn-outline-primary" routerLink="sign-in" *ngIf="!isSessionID">Sign in</a>
+  <a class="btn btn-outline-primary" *ngIf="isSessionID" (click)="onLogout()">Log out</a>
+
+</div>

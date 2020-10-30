@@ -1,0 +1,301 @@
+  <div class="container" *ngIf="!loading">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <form [formGroup]="userForm" (ngSubmit)="onEdit()">
+          <div class="card-body">
+          <div class="card-title mb-4">
+            <div class="d-flex justify-content-start">
+              <div class="image-container">
+                <img src="{{user.image}}" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                <div class="middle">
+                  <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />
+                  <input type="file" style="display: none;" id="profilePicture" name="file" />
+                </div>
+              </div>
+              <div class="userData ml-3">
+                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">{{user.username}}</h2>
+                <h6 class="d-block"><a href="javascript:void(0)">1,500</a> Video Uploads</h6>
+                <h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6>
+              </div>
+              <div class="ml-auto">
+                <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">Socials</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="dogs-tab" data-toggle="tab" href="#dogsList" role="tab" aria-controls="dogsList" aria-selected="false">Dogs</a>
+                </li>
+              </ul>
+              <div class="tab-content ml-1" id="myTabContent">
+                <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Username</label>
+                    </div>
+                    <div *ngIf="!canEdit" class="col-md-8 col-6">
+                      {{user.username}}
+                    </div>
+                    <div *ngIf="canEdit" class="col-md-8 col-6">
+                      <label>
+                        <input type="text" class="form-control" formControlName="username" (change)="onChange()" required autofocus>
+                      </label>
+                      <div class="form-error mt-3" *ngIf="submitted && f.username.errors">Username should be at least 3 characters.</div>
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Phone</label>
+                    </div>
+                    <div *ngIf="!canEdit" class="col-md-8 col-6">
+                      {{user.phone}}
+                    </div>
+                    <div *ngIf="canEdit" class="col-md-8 col-6">
+                      <label>
+                        <input type="text" class="form-control" formControlName="phone" (change)="onChange()" required autofocus>
+                      </label>
+                      <div class="form-error mt-3" *ngIf="submitted && f.phone.errors">Please enter a valid phone number.</div>
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Location</label>
+                    </div>
+                    <div *ngIf="!canEdit" class="col-md-8 col-6">
+                      {{user.location}}
+                    </div>
+                    <div *ngIf="canEdit" class="col-md-8 col-6">
+                      <label>
+                        <input type="text" class="form-control" formControlName="location" (change)="onChange()" autofocus>
+                      </label>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Something</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      Something
+                    </div>
+                  </div>
+                  <hr />
+
+                </div>
+                <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Facebook</label>
+                    </div>
+                    <div *ngIf="!canEdit" class="col-md-8 col-6">
+                      <a href="{{user.socials ? user.socials[0] : ''}}">{{user.socials ? user.socials[0] : ''}}</a>
+                    </div>
+                    <div *ngIf="canEdit" class="col-md-8 col-6">
+                      <label>
+                        <input type="text" class="form-control" formControlName="facebook" (change)="onChange()" autofocus>
+                      </label>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Instagram</label>
+                    </div>
+                    <div *ngIf="!canEdit" class="col-md-8 col-6">
+                      <a href="{{user.socials ? user.socials[1] : ''}}">{{user.socials ? user.socials[1] : ''}}</a>
+                    </div>
+                    <div *ngIf="canEdit" class="col-md-8 col-6">
+                      <label>
+                        <input type="text" class="form-control" formControlName="instagram" (change)="onChange()" autofocus>
+                      </label>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Twitter</label>
+                    </div>
+                    <div *ngIf="!canEdit" class="col-md-8 col-6">
+                      <a href="{{user.socials ? user.socials[2] : ''}}">{{user.socials ? user.socials[2] : ''}}</a>
+                    </div>
+                    <div *ngIf="canEdit" class="col-md-8 col-6">
+                      <label>
+                        <input type="text" class="form-control" formControlName="twitter" (change)="onChange()" autofocus>
+                      </label>
+                    </div>
+                  </div>
+                  <hr />
+                </div>
+                <div class="tab-pane fade" id="dogsList" role="tabpanel" aria-labelledby="dogs-tab">
+                  <div class="container">
+                    <div class="row">
+                      <div class="row row-cols-1 row-cols-md-4">
+                        <app-dog *ngFor="let dog of dogs"
+                                 [id]="dog.id"
+                                 [breed]="dog.breed"
+                                 [image]="dog.image"
+                                 [name]="dog.name" class="col mb-4">
+                        </app-dog>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-lg btn-primary" id="add-dog-button" data-toggle="modal" data-target="#addDog" *ngIf="canEdit">Add Dog</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class="form-error mt-1" *ngIf="submitted && usedPhone">Phone already been used.</div>
+            <div class="form-error mt-1" *ngIf="submitted && usedUsername">Username already been used.</div>
+            <div class="form-error mt-1" *ngIf="submitted && errorNet">Please check your internet connection.</div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter" *ngIf="changedInput">Save changes</button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Save changes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-label-group">
+                      <input type="password" id="inputPassword" class="form-control" placeholder="Password" formControlName="password" required>
+                      <label for="inputPassword">Enter your password</label>
+                      <div class="form-error mt-3" *ngIf="submitted && incorrectPassword">Incorrect password.</div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#changePassword" (click)="onChangePassword()" *ngIf="canEdit">Change password?</button>
+            <!-- Modal -->
+            <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="changePassword" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Save changes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-label-group">
+                      <input type="password" id="inputChangePassword" class="form-control" placeholder="Password" formControlName="password" required>
+                      <label for="inputPassword">Enter your password</label>
+                      <div class="form-error mt-3" *ngIf="submitted && incorrectPassword">Incorrect password.</div>
+                    </div>
+                    <div class="form-label-group">
+                      <input type="password" id="inputNewPassword" class="form-control" placeholder="Password" formControlName="newPassword" required>
+                      <label for="inputNewPassword">Enter your new password</label>
+                      <div class="form-error mt-3" *ngIf="submitted && f.newPassword.errors">Password should be at least 8 characters.</div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+
+        <!-- Add Dog Modal -->
+        <div class="modal fade" id="addDog" tabindex="-1" role="dialog" aria-labelledby="addDog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Dog</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form [formGroup]="dogForm" (ngSubmit)="onAddDog()">
+                <div class="modal-body">
+                  <div class="form-label-group">
+                    <input type="text" id="inputName" class="form-control" placeholder="Name" formControlName="name" required>
+                    <label for="inputName">Dog name</label>
+                    <div class="form-error mt-3" *ngIf="submittedDog && df.name.errors">Name required.</div>
+                  </div>
+                  <div class="form-label-group">
+                    <input type="text" id="inputBreed" class="form-control" placeholder="Breed" formControlName="breed" required>
+                    <label for="inputBreed">Dog breed</label>
+                    <div class="form-error mt-3" *ngIf="submittedDog && df.breed.errors">Breed required.</div>
+                  </div>
+                  <div class="form-label-group">
+                    <input type="text" id="inputDogDescription" class="form-control" placeholder="Description" formControlName="description" required>
+                    <label for="inputDogDescription">Dog description</label>
+                    <div class="form-error mt-3" *ngIf="submittedDog && df.description.errors">Description required.</div>
+                  </div>
+                  <div class="form-label-group">
+                    <input type="text" id="inputAge" class="form-control" placeholder="Age" formControlName="age" required>
+                    <label for="inputAge">Dog age (months)</label>
+                    <div class="form-error mt-3" *ngIf="submittedDog && df.age.errors">Age required.</div>
+                  </div>
+                  <div class="form-label-group">
+                    <input type="text" id="inputLocation" class="form-control" placeholder="Location" formControlName="location">
+                    <label for="inputLocation">Location</label>
+                  </div>
+                  <div class="form-label-group">
+                    <select class="custom-select mb-5 mb-sm-0" id="inputGender" formControlName="gender">
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                    </select>
+                    <label for="inputGender">Dog gender</label>
+                    <div class="form-error mt-3" *ngIf="submittedDog && df.gender.errors">Gender required.</div>
+                  </div>
+                  <div class="form-label-group">
+                    <select class="custom-select mb-5 mb-sm-0" id="inputReady" formControlName="ready">
+                      <option value="1">Yes</option>
+                      <option value="0">No</option>
+                    </select>
+                    <label for="inputReady">Ready to breed?</label>
+                    <div class="form-error mt-3" *ngIf="submittedDog && df.ready.errors">Please specify if it is ready to breed or not..</div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" #closeButton data-dismiss="modal">Close</button>
+                  <button class="btn btn-primary" type="submit">Add Dog</button>
+                  <div style="position: relative;left: -24.2vw;top: -0.4vw;" class="mt-4">
+                    <ngx-spinner bdColor=""
+                                 size="default"
+                                 color="#000"
+                                 type="ball-clip-rotate"
+                                 [fullScreen]="false"></ngx-spinner>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
